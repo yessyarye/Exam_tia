@@ -26,10 +26,9 @@ public class StudentRestController {
     @GetMapping("/students/{studentId}")
     public ResponseEntity<Student> findStudentById(@PathVariable int studentId) {
         Student student = studentService.findById(studentId);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build(); // Jika student tidak ditemukan
+        if (student == null) {
+            throw new StudentNotFoundException("Student id not found - " + studentId);
         }
+        return ResponseEntity.ok(student);
     }
 }
